@@ -32,7 +32,7 @@ powieksz = (nazwa) => {
         dalej = 0;
     }
     document.querySelector('#powieksz_menu').style.display = "block";
-    document.querySelector('#wybrane_zdj img').src = '/' + nazwa + '.jpg';
+    document.querySelector('#wybrane_zdj img').src = '' + nazwa + '.jpg';
     document.getElementById('dalej').innerHTML = '<img src="dalej.png" alt="dalej" onclick="dalej('+ parseFloat(dalej) +')"/>';
     document.getElementById('wstecz').innerHTML = '<img src="dalej.png" alt="dalej" onclick="wstecz('+ parseFloat(wstecz) +')"/>';
     document.location.hash = nazwa;

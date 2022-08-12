@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria-Fot</title>
+    <link href="pieknosc.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <h1>GALERIA-PiXELA</h1>
+    <div id="wszystko_galeria"></div>
+    <div id="powieksz_menu"><button id="zamknij">X</button>
+        <div id="wstecz"></div>
+        <div id="wybrane_zdj"><img alt="fota" /></div>
+        <div id="dalej"></div>
+    </div>
+
+    
+<script src="mechanizm.js"></script>
+</body>
+</html>
+var licznik = 6;
+
+
+const ramka_foty = document.querySelector("#wszystko_galeria");
+onload = () => {
+    for (let i = 0; i <= licznik-1; i++) {
+        ramka_foty.innerHTML = ramka_foty.innerHTML + '<div class="fotka" id="fotka' + i + '" onclick="powieksz(' + i + ')" ><img src="foty/' + i + '.jpg" alt="fota" /></div>';
+    }
+
+
+
+    /*
+for (i=0;i<4;i++) {
+document.querySelectorAll('.fotka img')[i].addEventListener('click',klikn(i));
+}
+*/
+}
+klikn = (i) => { console.log(document.querySelectorAll('.fotka img')[i].src) }
+
+powieksz = (nazwa) => {
+
+//document.querySelector('#powieksz_menu').innerHTML = '<button id="zamknij">X</button><button id="wstecz"></button><div id="wybrane_zdj"><img alt="fota" /></div><button id="dalej"></button>';
+
+
+
+    let dalej = parseFloat(nazwa + 1);
+    let wstecz = parseFloat(nazwa - 1);
+    if (wstecz <= 0) {
+        wstecz = licznik - 1;
+    }
+    if (dalej >= licznik) {
+        dalej = 0;
+    }
+    document.querySelector('#powieksz_menu').style.display = "block";
+    document.querySelector('#wybrane_zdj img').src = 'foty/' + nazwa + '.jpg';
+    document.getElementById('dalej').innerHTML = '<img src="dalej.png" alt="dalej" onclick="dalej('+ parseFloat(dalej) +')"/>';
+    document.getElementById('wstecz').innerHTML = '<img src="dalej.png" alt="dalej" onclick="wstecz('+ parseFloat(wstecz) +')"/>';
+    document.location.hash = nazwa;
+}
+
+document.getElementById('zamknij').addEventListener('click', () => {
+    document.getElementById('powieksz_menu').style.display = "none";
+    document.location.hash = '';
+})
+
+
+
+dalej = (nazwa) => {
+    let dalej = parseFloat(nazwa + 1);
+    let wstecz = parseFloat(nazwa - 1);
+    if (dalej >= licznik) {
+       dalej = 0; 
+    }
+    if (wstecz <= 0) {
+wstecz = licznik;
+    }
+    document.querySelector('#wybrane_zdj img').src = 'foty/' + nazwa + '.jpg';
+    document.getElementById('dalej').innerHTML = '<img src="dalej.png" alt="dalej" onclick="wstecz('+ dalej +')"/>';
+    document.getElementById('wstecz').innerHTML = '<img src="dalej.png" alt="dalej" onclick="dalej('+ wstecz +')"/>';
+    document.location.hash = nazwa;
+}
+
+
+wstecz = (nazwa) => {
+    let wstecz =  parseFloat(nazwa - 1);
+    let dalej = parseFloat(nazwa + 1);
+    if (wstecz <= 0) {
+        wstecz = licznik - 1;
+    }
+    if (dalej >= licznik) {
+        dalej = 0;
+    }
+    document.querySelector('#wybrane_zdj img').src = 'foty/' + nazwa + '.jpg';
+    document.getElementById('wstecz').innerHTML = '<img src="dalej.png" alt="dalej" onclick="wstecz('+ wstecz +')"/>';
+    document.getElementById('dalej').innerHTML = '<img src="dalej.png" alt="dalej" onclick="dalej('+ dalej +')"/>';
+    document.location.hash = nazwa;
+}
+
+
+zmianahash = () => {
+    if (window.location.hash != '') {
+        powieksz(window.location.hash.substr(1)); 
+    }
+}
+zmianahash();
+
+history.length.addEventListener('onChange',zmianahash());
+#wstecz {
+    position: fixed;
+    left: 10px;
+    bottom: 50%; 
+    transform: rotate(180deg);
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+}
+#wstecz:hover {
+    opacity: 0.8;
+    animation: wstecz 2s ease-in;
+}
+#dalej {
+    position: fixed;
+    right: 10px;
+    bottom: 50%;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+}
+#dalej:hover {
+    opacity: 0.8;
+    animation: dalej 2s ease-in;
+}
+
+@keyframes dalej {
+    40% {
+        transform: rotatey(-45deg);
+        transform: skewX(30deg);
+    }
+}
+@keyframes wstecz {
+    40% {
+        transform: rotate(180deg) skew(30deg, 10deg);
+    }
+}
+
+#zamknij {
+    display: flex;
+    position: fixed;
+    right: 4px;
+    margin-top: 8px;
+    font-size: 88px;
+    color: silver;
+    cursor: pointer;
+    z-index: 24;
+    border-radius: 12px;
+}
+#zamknij:hover {
+    background-color: red;
+    color:white;
+}
+
+#wybrane_zdj {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#wybrane_zdj img {
+    margin-top: 100px;
+    max-height: 488px;
+    max-width: 100%;
+    opacity:1;
+}
+
+#powieksz_menu {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: #1046dc8c;
+    z-index: 12;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+body {
+    background: rgb(0, 255, 145) linear-gradient(25deg, blue, transparent);
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    font-family: fantasy;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    font-size: 88px;
+    color: rgb(228, 15, 129);
+    transform: rotate3d(48deg);
+    margin-top: 48px;
+}
+
+#wszystko_galeria {
+    margin: 80px;
+    margin-top: -68px;
+    position: relative;
+    padding: 10px;
+    border-radius: 28px;
+    border: 1px solid rgba(55, 255, 0.4);
+    background: linear-gradient(48deg, white, transparent);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+}
+
+.fotka {
+    width: 248px;
+    display: flex;
+    float: left;
+    padding: 18px;
+    object-fit: cover;
+}
+
+#wszystko_galeria img {
+    max-width: 248px;
+    height: 100%;
+    cursor: pointer;
+    border: 3px solid white;
+    border-radius: 28px;
+    box-shadow: 0 0 12px 8px rgb(5, 88, 212);
+}
+
+.fotka img:hover {
+    transform: scale(1.1)
+}

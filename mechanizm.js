@@ -83,5 +83,3 @@ zmianahash = () => {
     }
 }
 zmianahash();
-
-history.length.addEventListener('onChange',zmianahash());
